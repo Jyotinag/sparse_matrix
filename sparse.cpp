@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 #define MAX_SIZE 1000
-const int row = 10;
-const int column = 10;
+const int row = 16;
+const int column = 16;
 
 using namespace std;
 
@@ -58,7 +58,7 @@ map<pair<int, int>, int> add_sparse_matrix(map<pair<int, int>, int> new_matrix, 
     return result;
 }
 
-//will yield the same map
+//will yield the same map for the value of n=1
 std::map<pair<int, int>, int> transpose_sparse_matrix(std::map<pair<int, int>, int> new_matrix){
     std::map<pair<int, int>, int> transpose;
     for(auto i = new_matrix.begin();i!=new_matrix.end();i++){
@@ -69,18 +69,24 @@ std::map<pair<int, int>, int> transpose_sparse_matrix(std::map<pair<int, int>, i
 
 int main()
 {
-    int dense_matrix[10][10] =
+    int dense_matrix[16][16] =
     {
-    {1,0,0,0,0,1,0,0,0,0},
-    {0,6,0,0,0,0,6,0,0,0},
-    {0,0,2,0,0,0,0,2,0,0},
-    {0,0,0,9,0,0,0,0,9,0},
-    {0,0,0,0,12,0,0,0,0,12},
-    {1,0,0,0,0,1,0,0,0,0},
-    {0,6,0,0,0,0,6,0,0,0},
-    {0,0,2,0,0,0,0,2,0,0},
-    {0,0,0,9,0,0,0,0,9,0},
-    {0,0,0,0,12,0,0,0,0,12},
+    {1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0},
+    {0,4,0,0,0,0,0,0,0,4,0,0,0,0,0,0},
+    {0,0,3,0,0,0,0,0,0,0,3,0,0,0,0,0},
+    {0,0,0,8,0,0,0,0,0,0,0,8,0,0,0,0},
+    {0,0,0,0,7,0,0,0,0,0,0,0,7,0,0,0},
+    {0,0,0,0,0,3,0,0,0,0,0,0,0,3,0,0},
+    {0,0,0,0,0,0,9,0,0,0,0,0,0,0,9,0},
+    {0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,6},
+    {1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0},
+    {0,4,0,0,0,0,0,0,0,4,0,0,0,0,0,0},
+    {0,0,3,0,0,0,0,0,0,0,3,0,0,0,0,0},
+    {0,0,0,8,0,0,0,0,0,0,0,8,0,0,0,0},
+    {0,0,0,0,7,0,0,0,0,0,0,0,7,0,0,0},
+    {0,0,0,0,0,3,0,0,0,0,0,0,0,3,0,0},
+    {0,0,0,0,0,0,9,0,0,0,0,0,0,0,9,0},
+    {0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,6}
     };
     int dense_matrix2[6][6] =
     {
@@ -101,7 +107,8 @@ int main()
     //map<pair<int,int>,int> result = add_sparse_matrix(new_matrix,new_matrix2);
     //print_mapped_matrix(result);
     
-    cout<<sizeof(new_matrix)<<endl;
+    int mem = sizeof(new_matrix) + new_matrix.size() * (sizeof(decltype(new_matrix)::key_type) + sizeof(decltype(new_matrix)::mapped_type));
+    cout<<mem<<endl;
     cout<<sizeof(dense_matrix);
     return 0;
 }
