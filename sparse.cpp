@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 #define MAX_SIZE 1000
-const int row = 3;
-const int column = 3;
+const int row = 10;
+const int column = 10;
 
 using namespace std;
 
@@ -22,11 +22,14 @@ void print_mapped_matrix(std::map<pair<int, int>, int> new_matrix){
     }
 }
 
-std::map<pair<int, int>, int> add_sparse_matrix(std::map<pair<int, int>, int> new_matrix, std::map<pair<int, int>, int> new_matrix2){
-    std::map<pair<int, int>, int> result;
+map<pair<int, int>, int> add_sparse_matrix(map<pair<int, int>, int> new_matrix, map<pair<int, int>, int> new_matrix2){
+    map<pair<int, int>, int> result;
+    cout<<"Debug";
     int apos = 0, bpos = 0, len = new_matrix.size();
     for(auto i = new_matrix.begin(), j = new_matrix2.begin();i!=new_matrix2.end();i++,j++){
-        if(i->first.first > j->first.first || i->first.first == j->first.first && i->first.second > j->first.second){
+        int val = i->second + j->second;
+        result[make_pair(i->first.first,i->first.second)]=val;
+        /*if(i->first.first > j->first.first || i->first.first == j->first.first && i->first.second > j->first.second){
             result[make_pair(j->first.first,j->first.second)]=j->second;
             bpos++;
         }
@@ -49,35 +52,56 @@ std::map<pair<int, int>, int> add_sparse_matrix(std::map<pair<int, int>, int> ne
         while(bpos<len){
             bpos++;
             result[make_pair(j->first.first,j->first.second)]=j->second;
-        }
+        }*/
     }
     
     return result;
 }
 
+//will yield the same map
+std::map<pair<int, int>, int> transpose_sparse_matrix(std::map<pair<int, int>, int> new_matrix){
+    std::map<pair<int, int>, int> transpose;
+    for(auto i = new_matrix.begin();i!=new_matrix.end();i++){
+        transpose[make_pair(i->first.second,i->first.first)]=i->second;
+    }
+    return transpose;
+}
+
 int main()
 {
-    int dense_matrix[3][3] =
+    int dense_matrix[10][10] =
     {
-    {1,0,0},
-    {0,4,0},
-    {0,0,6}
+    {1,0,0,0,0,1,0,0,0,0},
+    {0,6,0,0,0,0,6,0,0,0},
+    {0,0,2,0,0,0,0,2,0,0},
+    {0,0,0,9,0,0,0,0,9,0},
+    {0,0,0,0,12,0,0,0,0,12},
+    {1,0,0,0,0,1,0,0,0,0},
+    {0,6,0,0,0,0,6,0,0,0},
+    {0,0,2,0,0,0,0,2,0,0},
+    {0,0,0,9,0,0,0,0,9,0},
+    {0,0,0,0,12,0,0,0,0,12},
     };
-    int dense_matrix2[3][3] =
+    int dense_matrix2[6][6] =
     {
-    {1,0,0},
-    {0,4,0},
-    {0,0,6}
+    {1,0,0,1,0,0},
+    {0,4,0,0,4,0},
+    {0,0,6,0,0,6},
+    {1,0,0,1,0,0},
+    {0,4,0,0,4,0},
+    {0,0,6,0,0,6}
     };
     map<pair<int,int>,int> new_matrix = sparsify(dense_matrix);
     print_mapped_matrix(new_matrix);
+    map<pair<int, int>, int> transpose = transpose_sparse_matrix(new_matrix);
+    print_mapped_matrix(transpose);
     
-    map<pair<int,int>,int> new_matrix2 = sparsify(dense_matrix2);
-    print_mapped_matrix(new_matrix2);
-    map<pair<int,int>,int> result = add_sparse_matrix(new_matrix,new_matrix2);
+    //map<pair<int,int>,int> new_matrix2 = sparsify(dense_matrix2);
+    //print_mapped_matrix(new_matrix2);
+    //map<pair<int,int>,int> result = add_sparse_matrix(new_matrix,new_matrix2);
     //print_mapped_matrix(result);
     
-    //cout<<sizeof(new_matrix)<<endl;
-    //cout<<sizeof(sparse_matrix);
+    cout<<sizeof(new_matrix)<<endl;
+    cout<<sizeof(dense_matrix);
     return 0;
 }
