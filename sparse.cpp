@@ -22,18 +22,22 @@ void print_mapped_matrix(std::map<pair<int, int>, int> new_matrix){
     }
 }
 
-map<pair<int, int>, int> add_sparse_matrix(map<pair<int, int>, int> new_matrix, map<pair<int, int>, int> new_matrix2){
+map<pair<int, int>, int> add_sparse_matrix(map<pair<int, int>, int> new_matrix, 
+                    map<pair<int, int>, int> new_matrix2){
     map<pair<int, int>, int> result;
     cout<<"Debug";
     int apos = 0, bpos = 0, len = new_matrix.size();
-    for(auto i = new_matrix.begin(), j = new_matrix2.begin();i!=new_matrix2.end();i++,j++){
-        int val = i->second + j->second;
-        result[make_pair(i->first.first,i->first.second)]=val;
-        /*if(i->first.first > j->first.first || i->first.first == j->first.first && i->first.second > j->first.second){
+    for(auto i = new_matrix.begin(), j = new_matrix2.begin();
+        i!=new_matrix2.end();i++,j++){
+        /*int val = i->second + j->second;
+        result[make_pair(i->first.first,i->first.second)]=val;*/
+        if(i->first.first > j->first.first || i->first.first == j->first.first
+         && i->first.second > j->first.second){
             result[make_pair(j->first.first,j->first.second)]=j->second;
             bpos++;
         }
-        else if(i->first.first < j->first.first || i->first.first == j->first.first && i->first.second < j->first.second){
+        else if(i->first.first < j->first.first || i->first.first == j->first.first
+         && i->first.second < j->first.second){
             result[make_pair(i->first.first,i->first.second)]=i->second;
             apos++;
         }
@@ -52,14 +56,15 @@ map<pair<int, int>, int> add_sparse_matrix(map<pair<int, int>, int> new_matrix, 
         while(bpos<len){
             bpos++;
             result[make_pair(j->first.first,j->first.second)]=j->second;
-        }*/
+        }
     }
     
     return result;
 }
 
 //will yield the same map for the value of n=1
-std::map<pair<int, int>, int> transpose_sparse_matrix(std::map<pair<int, int>, int> new_matrix){
+std::map<pair<int, int>, int> 
+    transpose_sparse_matrix(std::map<pair<int, int>, int> new_matrix){
     std::map<pair<int, int>, int> transpose;
     for(auto i = new_matrix.begin();i!=new_matrix.end();i++){
         transpose[make_pair(i->first.second,i->first.first)]=i->second;
@@ -107,7 +112,9 @@ int main()
     //map<pair<int,int>,int> result = add_sparse_matrix(new_matrix,new_matrix2);
     //print_mapped_matrix(result);
     
-    int mem = sizeof(new_matrix) + new_matrix.size() * (sizeof(decltype(new_matrix)::key_type) + sizeof(decltype(new_matrix)::mapped_type));
+    int mem = sizeof(new_matrix) + 
+              new_matrix.size() * (sizeof(decltype(new_matrix)::key_type) + 
+              sizeof(decltype(new_matrix)::mapped_type));
     cout<<mem<<endl;
     cout<<sizeof(dense_matrix);
     return 0;
